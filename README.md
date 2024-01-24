@@ -1,6 +1,6 @@
 ## How to use the app
 
-1. Fill the covalent api key
+1. Fill the covalent api key (dont forget to allow [gas-tracker-three.vercel.app](https://gas-tracker-akbaridria.vercel.app/) into your api key)
 2. select the specific chain
 3. select the event
 4. click the ge gas price button
