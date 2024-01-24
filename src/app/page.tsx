@@ -47,7 +47,7 @@ const formSchema = z.object({
 
 export default function Home() {
   const [listChains, setListChains] = useState<{ name: string, logo: string }[]>([]);
-  const [result, setResult] = useState<string[]>(['$', '$', '$']);
+  const [result, setResult] = useState<string[]>(['-', '-', '-']);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -94,9 +94,9 @@ export default function Home() {
       setLoading(true)
       const d = await covalentClient(values.apiKey).BaseService.getGasPrices(values.chain as Chains, values.event);
       if (!d.error) {
-        setResult([...d.data.items.map((item) => item.pretty_total_gas_quote)]);
+        setResult([...d.data.items.map((item) => item.pretty_total_gas_quote || '-')]);
       } else {
-        setResult(['$', '$', '$'])
+        setResult(['-', '-', '-'])
         if (d.error_code === 401) {
           toast({
             title: 'Wrong API Key',
@@ -111,7 +111,7 @@ export default function Home() {
         title: 'Opps something went wrong!',
         description: 'Try again in a few minutes'
       })
-      setResult(['$', '$', '$'])
+      setResult(['-', '-', '-'])
       setLoading(false)
     }
   }
@@ -210,11 +210,11 @@ export default function Home() {
                 return (
                   <Card key={index} className="p-4 h-fit">
                     <CardContent className="pb-3 flex items-center justify-between">
-                      <div className="text-sm">Gas Price 1 Minute Average</div>
+                      <div className="text-sm">Gas Price { index === 0 ? 1 : index === 1 ? 3 : 5 } Minute Average</div>
                       <Dollar />
                     </CardContent>
                     <CardContent className="py-0">
-                      { loading ? <Skeleton className="w-[100px] h-[20px]" /> : <div className="text-2xl font-bold">{ item }</div>}
+                      { loading ? <Skeleton className="w-[100px] h-[30px]" /> : <div className="text-2xl font-bold">{ item }</div>}
                     </CardContent>
                   </Card>
                 )
